@@ -51,4 +51,4 @@ class SongList
         @index.add_to_index( song, song.name, song.artist )
         self
     end
-    def
+    end
