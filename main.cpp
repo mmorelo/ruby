@@ -3,7 +3,6 @@
 #include <condition_variable>
 #include <iostream>
 
-
 using namespace std;
 
 mutex mtx;
@@ -24,23 +23,40 @@ enum Status {
 
 Status s=NOT_RUNNING;
 
+bool check_running()
+{
+	bool ret;
+	mtx.lock();
+	ret = s==RUNNING;
+	mtx.unlock();
+
+	return ret;
+}
+
+
+bool check_speak()
+{
+	bool ret;
+	mtx.lock();
+	ret = have_to_speak;
+	mtx.unlock();
+
+	return ret;
+}
+
+
 void print( )
 {
 
-
-    cout << "print LOCKED mutex" << endl;
-
-    while( s == RUNNING )
+    while( check_running() )
     {
-        mtx.lock( );
-        bool speak = have_to_speak;
-        mtx.unlock( );
-
+        
+		
         cout << "Passed while" << endl;
-        if( speak )
+        
+        if( check_speak() )
         {
-
-            mtx.lock( );
+        	mtx.lock( );	
             cout << "if locked mutex" << endl;
             have_to_speak = false;
             mtx.unlock();
@@ -51,16 +67,13 @@ void print( )
             //cout << "HAve to speak ==== " << have_to_speak << endl;
 
             //cout << "Hey, wants to lock mutex" << endl;
-
-
-
-
+ 
         }
         else
         {
 
-            mtx.lock( );
-            cout << "ELSE locked mutex" << endl;
+            mtx.lock();
+            //cout << "ELSE locked mutex" << endl;
             //cout << "setting waiting true " << endl;
             waiting = true;
             //cout << "after setting waiting true " << endl;
@@ -71,11 +84,9 @@ void print( )
             cout << "waiting " << endl;
             cv.wait( lk, []{return have_to_speak || !waiting;} );
             cout << "woke up" << endl;
-
-
-
-
+            
         }
+
     }
 
     cout << "Quitting print" << endl;
@@ -134,7 +145,7 @@ void  foo( )
             mtx.unlock( );
             cout << "FORIF RELEASED" << endl;
             cv.notify_all( );
-            //std::this_thread::sleep_for( std::chrono::milliseconds(1000) );
+            std::this_thread::sleep_for( std::chrono::milliseconds(100) );
         }
     }
 
