@@ -2,8 +2,13 @@
 
 //typedef struct Node * List;
 
-struct Node {
 
+#include<iostream>
+
+using namespace std;
+
+struct Node
+{
     int value;
     Node * next;
 
@@ -36,28 +41,18 @@ bool remove_value( Node * current, int value )
 
 
 
-int main(int argc, char *argv[])
+int main( int arc, char * argv[] )
 {
-    Node a,b,c, d;
+    Node *a, *b;
 
-    a.value = 1;
-    a.next = &b;
-    b.value = 2;
-    b.next = &c;
+    Node * head = NULL;
+    a = new Node;
+    a->value = 1;
+    head = a;
 
-    c.value = 3;
-    c.next = &d;
-    d.value = 4;
-    d.next = 0;
+    remove_value(head, 1);
 
 
-    int v = 1;
-
-
-    remove_value( &a, v);
-
-    //Print list
-
-
-
+    return 0;
 }
+
