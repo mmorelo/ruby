@@ -99,12 +99,12 @@ int main(int argc, char *argv[])
 
     vector<int> A;
 
+    A.push_back( 0 );
     A.push_back( 6 );
-    A.push_back( 6 );
-    A.push_back( 6 );
-    A.push_back( 6 );
-    A.push_back( 6 );
-    A.push_back( 6 );
+    A.push_back( 1 );
+    A.push_back( 2 );
+    A.push_back( 1 );
+    A.push_back( 0 );
 
 
  cout << solution(A) << endl;
