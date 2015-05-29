@@ -59,7 +59,7 @@ string get_unit( unsigned int n)
         oss2 << n;
      out = oss2.str( ) + decimal_part + get_unit( counter );
 
-
+     return out;
  }
 
 
